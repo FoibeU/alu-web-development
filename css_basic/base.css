@@ -5,7 +5,7 @@
 @import url(https://fonts.googleapis.com/css?family=Josefin+Sans:400,700,700italic,400italic);
 
 
-
+/* CSS reset rules */
 
 html, body {
 	height: 100%;
@@ -62,7 +62,7 @@ body {
 h1, h2, h3, h4, h5, h6, header {
 	font-family: 'Yeseva One', sans-serif;
 }
-article {
+article {background-color: burlywood;
 }
 header {
 	border-bottom: 1px solid rgb(221,221,221);
@@ -104,6 +104,7 @@ article > *:first-child {
 }
 aside {
 	padding: 50px 15px;
+  background-color: #bbb;
 }
 header .right {
 	float: right;
@@ -132,7 +133,7 @@ header li a {
 	margin: 0 10px;
 }
 header li.logo {
-	font-size: 36px;
+	font-size: 100px;
 }
 header a {
 	text-decoration: none;
@@ -179,22 +180,5 @@ h4 {
 }
 h5 {
 	font-size: 18px;
-	font-weight: bold;
-	margin: 15px 0 10px;
-}
-h6 {
-	font-weight: bold;
-	margin: 5px 0;
-}
-
-@media (max-width: 800px) {
-  body.works_on_smartphone {
-  	display: block;
-  }
-  body.works_on_smartphone main {
-  	display: block;
-  }
-  header .right {
-  	float: none;
-  }
+	font-weight: 10px;
 }
