@@ -1,0 +1,1 @@
+This Is a Pure advenced HTML For a responsive Website, It contains a lot of sections and division
