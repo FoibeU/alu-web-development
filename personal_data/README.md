@@ -1,0 +1,1 @@
+This project is designed to teach about personal data, how to desplay them , how to encrypt the password for security purpose
