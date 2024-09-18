@@ -2,7 +2,7 @@
 """ User module
 """
 import hashlib
-from models.base
+from models.base import Base
 
 
 class User(Base):
