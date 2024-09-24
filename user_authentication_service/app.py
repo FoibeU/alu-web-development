@@ -8,7 +8,6 @@ from flask import Flask, jsonify, request, abort, redirect
 AUTH = Auth()
 app = Flask(__name__)
 
-
 @app.route('/', methods=['GET'], strict_slashes=False)
 def welcome() -> str:
     """ GET /
@@ -16,7 +15,6 @@ def welcome() -> str:
       - welcome
     """
     return jsonify({"message": "Bienvenue"}), 200
-
 
 @app.route('/users', methods=['POST'], strict_slashes=False)
 def user() -> str:
@@ -32,7 +30,6 @@ def user() -> str:
     except Exception:
         return jsonify({"message": "email already registered"}), 400
 
-
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
 def login() -> str:
     """ POST /sessions
@@ -44,12 +41,13 @@ def login() -> str:
     valid_login = AUTH.valid_login(email, password)
     if valid_login:
         session_id = AUTH.create_session(email)
+        if not session_id:
+            abort(500)  # Added: Ensure session_id is generated
         response = jsonify({"email": f"{email}", "message": "logged in"})
         response.set_cookie('session_id', session_id)
         return response
     else:
         abort(401)
-
 
 @app.route('/sessions', methods=['DELETE'], strict_slashes=False)
 def logout() -> str:
@@ -58,13 +56,14 @@ def logout() -> str:
         - message
     """
     session_id = request.cookies.get('session_id')
+    if not session_id:
+        abort(403)  # No session cookie found
     user = AUTH.get_user_from_session_id(session_id)
     if user:
         AUTH.destroy_session(user.id)
         return redirect('/')
     else:
         abort(403)
-
 
 @app.route('/profile', methods=['GET'], strict_slashes=False)
 def profile() -> str:
@@ -73,12 +72,14 @@ def profile() -> str:
         - message
     """
     session_id = request.cookies.get('session_id')
+    if not session_id:
+        abort(403)  # No session ID found in cookies
+
     user = AUTH.get_user_from_session_id(session_id)
     if user:
         return jsonify({"email": user.email}), 200
     else:
-        abort(403)
-
+        abort(403)  # Invalid session or user not found
 
 @app.route('/reset_password', methods=['POST'], strict_slashes=False)
 def get_reset_password_token() -> str:
@@ -93,7 +94,6 @@ def get_reset_password_token() -> str:
     else:
         token = AUTH.get_reset_password_token(email)
         return jsonify({"email": f"{email}", "reset_token": f"{token}"})
-
 
 @app.route('/reset_password', methods=['PUT'], strict_slashes=False)
 def update_password() -> str:
@@ -111,6 +111,5 @@ def update_password() -> str:
     except Exception:
         abort(403)
 
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="8000")
+    app.run(host="0.0.0.0", port="5000")
